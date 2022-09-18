@@ -6,7 +6,7 @@
 #    By: arguilla <arguilla@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/15 10:54:31 by arguilla          #+#    #+#              #
-#    Updated: 2022/09/15 14:16:14 by arguilla         ###   ########.fr        #
+#    Updated: 2022/09/18 21:39:31 by arguilla         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,9 +53,6 @@ STL_OBJS	=	$(SRCS:%.cpp=$S%.o)
 FT_DEPS		=	$(FT_OBJS:.o=.d)
 STL_DEPS	=	$(STL_OBJS:.o=.d)
 
--include ${FT_DEPS}
--include ${STL_DEPS}
-
 # [ VPATH ] #
 
 VPATH	=	srcs:includes
@@ -63,34 +60,34 @@ VPATH	=	srcs:includes
 # [ FUNCTIONS ] #
 
 stl/%.o: %.cpp
-	mkdir -p $(@D)
-	@echo -e "$(_CYAN)Compiling $<...$(_END)"
+	@mkdir -p $(@D)
+	@echo -e "$(_CYAN)[Compile]$(_END)\t\t'$<'$(_END)"
 	@$(CC) $(CFLAGS) $(I) -c -o $@ $<
 
 ft/%.o: %.cpp
-	mkdir -p $(@D)
-	@echo -e "$(_CYAN)Compiling $<...$(_END)"
+	@mkdir -p $(@D)
+	@echo -e "$(_CYAN)[Compile]$(_END)\t\t'$<'$(_END)"
 	@$(CC) $(CFLAGS) $(I) $(FT) -c -o $@ $<
 
 define	delete =
 	@[[ $(1) $(2) ]] \
 		&& $(RM) $2 \
-		&& printf "$(_RED)[Delete]$(_END) => '$2'\n" \
+		&& printf "$(_RED)[Delete]$(_END)\t\t'$2'\n" \
 		|| :
 endef
 
 # [ RULES ] #
 
 all:		$(FT_NAME) $(STL_NAME)
-
+		
 $(STL_NAME):	$(STL_OBJS)
 			@$(CC) $(CFLAGS) $^ -o $@ $I
-			@printf "$(_GREEN)[Success]$(_END) => '$@'\n"
+			@printf "$(_GREEN)[Success]$(_END)\t\t'$@'\n"
 
 $(FT_NAME):		$(FT_OBJS)
 			@$(CC) $(CFLAGS) $^ -o $@ $I
-			@printf "$(_GREEN)[Success]$(_END) => '$@'\n"
-			
+			@printf "$(_GREEN)[Success]$(_END)\t\t'$@'\n"
+
 clean:
 			$(call delete,-d,$F)
 			$(call delete,-d,$S)
@@ -104,3 +101,8 @@ re:			fclean all
 # [ PHONY ] #
 
 .PHONY:	all clean fclean re
+
+# [ DEPENDENCIES ] #
+
+-include ${FT_DEPS}
+-include ${STL_DEPS}

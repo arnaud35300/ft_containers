@@ -6,7 +6,7 @@
 /*   By: arguilla <arguilla@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 13:36:51 by arguilla          #+#    #+#             */
-/*   Updated: 2022/09/15 14:16:48 by arguilla         ###   ########.fr       */
+/*   Updated: 2022/09/18 22:11:05 by arguilla         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ class vector
 	
 		explicit	vector(const allocator_type & alloc = allocator_type())
 			: _alloc(alloc), _size(0), _capacity(0), _start(0)
-		{
-//			this->_start = this->_alloc.allocate(0);
-			return ;
-		}
+		{}
 
 		explicit	vector(size_type n, const value_type & val = value_type(),
 				const allocator_type & alloc = allocator_type())
@@ -137,6 +134,12 @@ class vector
 		 * Accessors
 		 */
 
+		value_type * data(void)
+		{ return (this->_start); }
+		
+		value_type const * data(void) const
+		{ return (this->_start); }
+		
 		inline allocator_type	get_allocator(void) const
 		{ return (allocator_type(this->_alloc)); }
 		
